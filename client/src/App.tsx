@@ -1,28 +1,25 @@
-import axios from "axios";
-import "./App.css";
-import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import DashBoard from "./pages/DashBoard";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Projects from "./pages/Projects";
+import About from "./pages/About";
+import Page404 from "./pages/Page404";
 
 function App() {
-  const [response, setResponse] = useState();
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/test")
-      .then((res) => {
-        console.log(res);
-        setResponse(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setResponse(err.message);
-      });
-  }, []);
-
   return (
-    <div className="App">
-      <h1>HELLO</h1>
-      <p>Response form server: {response}</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="*" element={<Page404 />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
