@@ -10,15 +10,15 @@ export const signUp = async (
 ) => {
   try {
     // extracting user credentials from the request body
-    const { username, email, password } = req.body;
+    const { username, email, password } = req.body.formData;
     // validating that the credentials are pressent and not empty
     if (
       !username ||
       !email ||
       !password ||
-      username === " " ||
-      password === " " ||
-      email === " "
+      username === "" ||
+      password === "" ||
+      email === ""
     ) {
       // if one of them are responding with 400 (Bad Request)
       // return res.status(400).json("All fields are required");
