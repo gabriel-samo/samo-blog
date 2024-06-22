@@ -39,3 +39,17 @@ export const signUp = async (
     next(errorHandler(500, "ERROR!, " + error.message));
   }
 };
+
+export const signIn = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // TODO: implement login endpoint
+  } catch (error: any) {
+    // if there is any error, catch it and send an 500 (server error) with an error message
+    // return res.status(500).json("ERROR!, " + error.message);
+    next(errorHandler(500, "ERROR!, " + error.message));
+  }
+};

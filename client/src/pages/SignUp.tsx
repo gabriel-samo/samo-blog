@@ -22,6 +22,9 @@ function SignUp() {
 
   const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
+    formData && formData.email.trim();
+    formData && formData.password.trim();
+    formData && formData.username.trim();
     if (
       !formData ||
       !formData.username ||
