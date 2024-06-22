@@ -1,22 +1,18 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
+import userRouter from "./routes/user.route";
 import { config } from "./config";
 import { db } from "./DAL/dal_mongoDb";
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/test", (req, res) => {
-  try {
-    res.status(200).json("OK");
-  } catch (error: any) {
-    res.status(500).json(error);
-  }
-});
+app.use("/api/user", userRouter);
 
 const { port, host } = config.app;
-app.listen(port, async () => {
-  await db;
+app.listen(port, () => {
+  db;
   console.log(`http://${host}:${port}`);
 });
