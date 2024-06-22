@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import { config } from "./config";
+import { db } from "./DAL/dal_mongoDb";
 const app = express();
 
 app.use(cors());
@@ -13,5 +15,8 @@ app.get("/api/test", (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`http://localhost:${port}`));
+const { port, host } = config.app;
+app.listen(port, async () => {
+  await db;
+  console.log(`http://${host}:${port}`);
+});

@@ -1,6 +1,6 @@
-import { NavLink, useLocation } from "react-router-dom";
-import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
+import { AiOutlineSearch } from "react-icons/ai";
+import { NavLink, useLocation } from "react-router-dom";
 import { Button, Navbar, TextInput } from "flowbite-react";
 
 function Header() {
@@ -11,12 +11,12 @@ function Header() {
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-blue-700 to-purple-400 rounded-lg text-white">
+        <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white">
           Samo's
         </span>
         Blog
       </NavLink>
-      <form>
+      <form className="flex gap-4">
         <TextInput
           type="text"
           placeholder="Search..."
