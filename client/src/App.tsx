@@ -7,6 +7,7 @@ import Page404 from "./pages/Page404";
 import Projects from "./pages/Projects";
 import Header from "./components/Header";
 import DashBoard from "./pages/DashBoard";
+import FooterComp from "./components/FooterComp";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
+      <FooterComp />
     </BrowserRouter>
   );
 }
