@@ -36,6 +36,6 @@ if (isProduction) {
 
 const { port, host } = config.app;
 app.listen(port, () => {
-  db;
+  console.log(db);
   console.log(`http://${host}:${port}`);
 });

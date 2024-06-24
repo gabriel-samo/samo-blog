@@ -6,5 +6,5 @@ export const db =
   config.db.uri &&
   mongoose
     .connect(config.db.uri)
-    .then(() => console.log("Connected to MongoDB"))
-    .catch((err) => console.log(err));
+    .then(() => "Connected to MongoDB")
+    .catch((err) => err);
