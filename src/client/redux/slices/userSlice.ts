@@ -6,6 +6,8 @@ type currentUserState = {
   email: string;
   createdAt: string;
   updatedAt: string;
+  profilePicture?: string;
+  name?: string;
   __v: number;
 };
 

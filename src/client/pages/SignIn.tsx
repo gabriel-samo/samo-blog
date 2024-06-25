@@ -8,6 +8,7 @@ import {
   signInStart,
   signInSuccess
 } from "../redux/slices/userSlice";
+import OAuth from "../components/OAuth";
 
 type userCreds = {
   email: string;
@@ -95,6 +96,7 @@ function SignIn() {
                 "Sing In"
               )}
             </Button>
+            <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Don't have an account?</span>

@@ -2,6 +2,7 @@ import { Alert, Button, FloatingLabel, Spinner } from "flowbite-react";
 import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { makeRequest } from "../utils/makeRequest";
+import OAuth from "../components/OAuth";
 
 type userCreds = {
   username: string;
@@ -110,6 +111,7 @@ function SignUp() {
                 "Sing Up"
               )}
             </Button>
+            <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Have an account?</span>

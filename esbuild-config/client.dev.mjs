@@ -1,5 +1,6 @@
 import * as esbuild from "esbuild";
 import postcss from "esbuild-postcss";
+import "dotenv/config";
 
 let ctx;
 
@@ -12,7 +13,8 @@ try {
     outfile: "public/static/bundle.js",
     plugins: [postcss()],
     define: {
-      "process.env.NODE_ENV": "'development'"
+      "process.env.NODE_ENV": "'development'",
+      "process.env.FIREBASE_KEY": JSON.stringify(process.env.FIREBASE_KEY)
     }
   });
 

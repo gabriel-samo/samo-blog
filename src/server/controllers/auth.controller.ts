@@ -3,6 +3,8 @@ import User from "../models/user.model";
 import { createJWT } from "../utils/createJWT";
 import { errorHandler } from "../utils/errorHandler";
 import { type NextFunction, type Request, type Response } from "express";
+import crypto from "crypto";
+//require('crypto').randomBytes(64).toString('hex');
 
 export const signUp = async (
   req: Request,
@@ -37,7 +39,7 @@ export const signUp = async (
   } catch (error: any) {
     // if there is any error, catch it and send an 500 (server error) with an error message
     // return res.status(500).json("ERROR!, " + error.message);
-    return next(errorHandler(500, "ERROR!, " + error.message));
+    return next(error);
   }
 };
 
@@ -77,6 +79,60 @@ export const signIn = async (
     }
   } catch (error: any) {
     // if there is any error, catch it and send an 500 (server error) with an error message
-    return next(errorHandler(500, "ERROR!, " + error.message));
+    return next(error);
+  }
+};
+
+export const googleAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // extracting the email and password from the request body
+  const { email, name, googlePhotoUrl } = req.body;
+  try {
+    // searching the db for a user with the provided email
+    const foundUser = await User.findOne({ email });
+    if (foundUser) {
+      // if the user exsist, creating a JWT
+      const token = createJWT(foundUser._id);
+      // sepereting the password and the rest of the credentials
+      const { password, ...rest } = foundUser._doc;
+      // sending the user credentials
+      return res
+        .status(200)
+        .cookie("access_token", token, { httpOnly: true })
+        .json(rest);
+    } else {
+      // if the user was not found,
+      // generating a random password
+      const generatedPass = crypto.randomBytes(8).toString("hex");
+      // hashing the password
+      const hashedPass = bcryptjs.hashSync(generatedPass, 10);
+      // creating a new user with the credentials provided from google
+      const newUser = new User({
+        username:
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4),
+        profilePicture: googlePhotoUrl,
+        password: hashedPass,
+        email,
+        name
+      });
+      // saving to the db
+      await newUser.save();
+      // generatin a token
+      const token = createJWT(newUser._id);
+      // seperatin the password fron the user cerds
+      const { password, ...rest } = newUser._doc;
+      // sending the token with a HTTP only cookie
+      return res
+        .status(200)
+        .cookie("access_token", token, { httpOnly: true })
+        .json(rest);
+    }
+  } catch (error: any) {
+    // if there is any error, catch it and send an 500 (server error) with an error message
+    return next(error);
   }
 };
