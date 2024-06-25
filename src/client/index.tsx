@@ -4,6 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import ThemeProvider from "./components/ThemeProvider";
 
 // ESBuild Hot Reload for dev environment only
 if (process.env.NODE_ENV === "development") {
@@ -18,7 +19,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </React.StrictMode>
   </Provider>
 );
