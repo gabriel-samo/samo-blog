@@ -11,7 +11,7 @@ export const signUp = async (
 ) => {
   try {
     // extracting user credentials from the request body
-    const { username, email, password } = req.body.formData;
+    const { username, email, password } = req.body;
     // validating that the credentials are pressent and not empty
     if (
       !username ||

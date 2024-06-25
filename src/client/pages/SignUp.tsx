@@ -1,10 +1,9 @@
-import React from "react";
 import { Alert, Button, FloatingLabel, Spinner } from "flowbite-react";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { makeRequest } from "../utils/makeRequest";
 
-export type userCreds = {
+type userCreds = {
   username: string;
   email: string;
   password: string;
@@ -37,7 +36,7 @@ function SignUp() {
     try {
       setLoading(true);
       setErrorMsg(null);
-      const result = await makeRequest().post("/api/auth/signup", { formData });
+      const result = await makeRequest().post("/api/auth/signup", formData);
       if (result.status !== 200) {
         setLoading(false);
         console.log(result.data);

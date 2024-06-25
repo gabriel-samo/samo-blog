@@ -1,8 +1,9 @@
+import "./styles/app.css";
+import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-
-import "./styles/app.css";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 
 // ESBuild Hot Reload for dev environment only
 if (process.env.NODE_ENV === "development") {
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>
 );
