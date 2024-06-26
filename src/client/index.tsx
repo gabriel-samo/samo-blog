@@ -1,10 +1,11 @@
 import "./styles/app.css";
+import "react-circular-progressbar/dist/styles.css";
 import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import ThemeProvider from "./components/ThemeProvider";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
-import ThemeProvider from "./components/ThemeProvider";
 
 // ESBuild Hot Reload for dev environment only
 if (process.env.NODE_ENV === "development") {

@@ -2,14 +2,14 @@ import React from "react";
 import { Button } from "flowbite-react";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
-import { app } from "../firebase";
+import { fireBaseApp } from "../firebase";
 import { useAppDispatch } from "../redux/hooks";
 import { useNavigate } from "react-router-dom";
 import { signInSuccess } from "../redux/slices/userSlice";
 import { makeRequest } from "../utils/makeRequest";
 
 function OAuth() {
-  const auth = getAuth(app);
+  const auth = getAuth(fireBaseApp);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
