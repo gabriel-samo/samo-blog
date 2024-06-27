@@ -75,6 +75,13 @@ export const userSlice = createSlice({
       state.loading = false;
       state.errorMsg = action.payload;
       return state;
+    },
+    signout: (state) => {
+      state.currentUser = null;
+      state.loading = false;
+      state.errorMsg = null;
+      localStorage.setItem("samo_blog-current-user", JSON.stringify(state));
+      return state;
     }
   }
 });
@@ -88,5 +95,6 @@ export const {
   updateUserFailure,
   deleteUserStart,
   deleteUserFailure,
-  deleteUserSuccess
+  deleteUserSuccess,
+  signout
 } = userSlice.actions;

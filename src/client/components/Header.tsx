@@ -6,6 +6,8 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { toggleTheme } from "../redux/slices/themeSlice";
+import { makeRequest } from "../utils/makeRequest";
+import { signout } from "../redux/slices/userSlice";
 
 function Header() {
   const path = useLocation().pathname;
@@ -15,6 +17,19 @@ function Header() {
 
   const handleThemeToggle = () => {
     dispatch(toggleTheme());
+  };
+
+  const handleSignout = async () => {
+    try {
+      const res = await makeRequest.post("api/user/signout");
+      if (res.status !== 200) {
+        console.log(res.data.messgae);
+      } else {
+        dispatch(signout());
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -70,7 +85,7 @@ function Header() {
               <Dropdown.Item>Profile</Dropdown.Item>
             </NavLink>
             <Dropdown.Divider />
-            <Dropdown.Item>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
           </Dropdown>
         ) : (
           <NavLink to="/sign-in">

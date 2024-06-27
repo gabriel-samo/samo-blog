@@ -24,7 +24,8 @@ import {
   updateUserSuccess,
   deleteUserFailure,
   deleteUserStart,
-  deleteUserSuccess
+  deleteUserSuccess,
+  signout
 } from "../redux/slices/userSlice";
 
 type formInputs = {
@@ -145,6 +146,19 @@ function DashProfile() {
     }
   };
 
+  const handleSignout = async () => {
+    try {
+      const res = await makeRequest.post("api/user/signout");
+      if (res.status !== 200) {
+        console.log(res.data.messgae);
+      } else {
+        dispatch(signout());
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -232,7 +246,9 @@ function DashProfile() {
         <span className="cursor-pointer" onClick={() => setShowModel(true)}>
           Delete User
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span className="cursor-pointer" onClick={handleSignout}>
+          Sign Out
+        </span>
       </div>
       {userUpdated && (
         <Alert className="mt-5" color="success">
