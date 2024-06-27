@@ -34,7 +34,7 @@ function SignIn() {
     }
     try {
       dispatch(signInStart());
-      const result = await makeRequest().post("/api/auth/signin", formData);
+      const result = await makeRequest.post("/api/auth/signin", formData);
       if (result.status !== 200) {
         console.log(result.data);
         return dispatch(signInFailure(result.data.message));

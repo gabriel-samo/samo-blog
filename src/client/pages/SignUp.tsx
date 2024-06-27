@@ -37,7 +37,7 @@ function SignUp() {
     try {
       setLoading(true);
       setErrorMsg(null);
-      const result = await makeRequest().post("/api/auth/signup", formData);
+      const result = await makeRequest.post("/api/auth/signup", formData);
       if (result.status !== 200) {
         setLoading(false);
         console.log(result.data);

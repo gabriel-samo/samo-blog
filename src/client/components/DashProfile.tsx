@@ -10,6 +10,7 @@ import {
   ref,
   uploadBytesResumable
 } from "firebase/storage";
+import { makeRequest } from "../utils/makeRequest";
 
 function DashProfile() {
   const { currentUser } = useAppSelector((state) => state.user);
@@ -30,6 +31,13 @@ function DashProfile() {
   useEffect(() => {
     imageFile && uploadImage();
   }, [imageFile]);
+
+  // useEffect(() => {
+  //   makeRequest
+  //     .put("/api/user/update", {}, {})
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const uploadImage = async () => {
     setUploadError(null);

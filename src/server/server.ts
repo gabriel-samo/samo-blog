@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
+import cookieParser from "cookie-parser";
 import { config } from "./config";
 import { db } from "./DAL/dal_mongoDb";
 import { errorMiddleware } from "./middlewares/error.middleware";
@@ -21,6 +22,7 @@ if (isProduction) {
 }
 
 app.use(express.json());
+app.use(cookieParser());
 
 // all our api routes
 app.use("/api/user", userRouter);
