@@ -1,7 +1,7 @@
 import bcryptjs from "bcryptjs";
-import { type Request, type Response, type NextFunction } from "express";
+import User from "../models/user.model";
 import { errorHandler } from "../utils/errorHandler";
-import User, { IUser } from "../models/user.model";
+import { type Request, type Response, type NextFunction } from "express";
 
 export const userTest = async (req: Request, res: Response) => {
   try {

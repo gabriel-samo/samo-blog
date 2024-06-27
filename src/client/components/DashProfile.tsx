@@ -38,6 +38,7 @@ function DashProfile() {
   const [uploadProgress, setUploadProgress] = useState<null | number>(null);
   const [uploadError, setUploadError] = useState<null | string>(null);
   const [updatedFields, setUpdatedFields] = useState<{} | formInputs>({});
+  const [userUpdated, setUserUpdated] = useState<null | string>(null);
 
   const filePickerRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
@@ -54,27 +55,6 @@ function DashProfile() {
     if (file) {
       setImageFile(file);
       setImageFileURL(URL.createObjectURL(file));
-    }
-  };
-
-  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (Object.keys(updatedFields).length === 0) return;
-    dispatch(updateUserStart());
-    try {
-      const result = await makeRequest.put(
-        `/api/user/update/${currentUser?._id}`,
-        updatedFields
-      );
-      if (result.status === 200) {
-        console.log(result.data);
-        dispatch(updateUserSuccess(result.data));
-      } else {
-        dispatch(updateUserFailure(result.data.message));
-      }
-    } catch (error: any) {
-      console.log(error);
-      dispatch(updateUserFailure(error.message));
     }
   };
 
@@ -113,6 +93,33 @@ function DashProfile() {
           setUpdatedFields({ ...updatedFields, profilePicture: downloadURL });
         }
       );
+    }
+  };
+
+  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setUserUpdated(null);
+    if (Object.keys(updatedFields).length === 0) {
+      dispatch(updateUserFailure("No changes was made"));
+      return;
+    }
+    dispatch(updateUserStart());
+    try {
+      const result = await makeRequest.put(
+        `/api/user/update/${currentUser?._id}`,
+        updatedFields
+      );
+      if (result.status === 200) {
+        console.log(result.data);
+        dispatch(updateUserSuccess(result.data));
+        setUserUpdated("User was updated successfully!");
+        setUpdatedFields({});
+      } else {
+        dispatch(updateUserFailure(result.data.message));
+      }
+    } catch (error: any) {
+      console.log(error);
+      dispatch(updateUserFailure(error.message));
     }
   };
 
@@ -203,6 +210,11 @@ function DashProfile() {
         <span className="cursor-pointer">Delete User</span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
+      {userUpdated && (
+        <Alert className="mt-5" color="success">
+          {userUpdated}
+        </Alert>
+      )}
       {errorMsg && (
         <Alert className="mt-5" color="failure">
           {errorMsg}

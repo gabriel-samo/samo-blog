@@ -21,12 +21,14 @@ try {
   await ctx.watch();
   console.log("Watching client...");
 
-  const { host, port } = await ctx.serve({
+  let { host, port } = await ctx.serve({
     host: "localhost",
     port: 3000,
     servedir: "public",
     fallback: "public/index.html"
   });
+
+  host = host == "127.0.0.1" ? "localhost" : host;
 
   console.info(`Hot refresh at http://${host}:${port}`);
 } catch (error) {

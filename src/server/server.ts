@@ -15,8 +15,8 @@ const app = express();
 // middlewares
 if (isDevelopment) {
   const corsConfig = {
-    credentials: true,
-    origin: "http://localhost:3000"
+    origin: "http://localhost:3000",
+    credentials: true
   };
   app.use(cors(corsConfig));
 }
