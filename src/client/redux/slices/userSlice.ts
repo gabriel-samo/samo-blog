@@ -58,6 +58,23 @@ export const userSlice = createSlice({
       state.loading = false;
       state.errorMsg = action.payload;
       return state;
+    },
+    deleteUserStart: (state) => {
+      state.loading = true;
+      state.errorMsg = null;
+      return state;
+    },
+    deleteUserSuccess: (state) => {
+      state.currentUser = null;
+      state.loading = false;
+      state.errorMsg = null;
+      localStorage.setItem("samo_blog-current-user", JSON.stringify(state));
+      return state;
+    },
+    deleteUserFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.errorMsg = action.payload;
+      return state;
     }
   }
 });
@@ -68,5 +85,8 @@ export const {
   signInFailure,
   updateUserStart,
   updateUserSuccess,
-  updateUserFailure
+  updateUserFailure,
+  deleteUserStart,
+  deleteUserFailure,
+  deleteUserSuccess
 } = userSlice.actions;
