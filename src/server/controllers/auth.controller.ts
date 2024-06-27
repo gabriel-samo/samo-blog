@@ -69,7 +69,7 @@ export const signIn = async (
         return next(errorHandler(400, "Invalid password"));
       }
       // if the passwords are equal than creating a jwt and sending it with a HTTP only cookie (a cookie that are not accessible from JS)
-      const token = createJWT(foundUser._id);
+      const token = createJWT(foundUser);
 
       // sperating the password from the user credentials
       const { password: pass, ...rest } = foundUser._doc;
@@ -96,7 +96,7 @@ export const googleAuth = async (
     const foundUser = await User.findOne({ email });
     if (foundUser) {
       // if the user exsist, creating a JWT
-      const token = createJWT(foundUser._id);
+      const token = createJWT(foundUser);
       // sepereting the password and the rest of the credentials
       const { password, ...rest } = foundUser._doc;
       // sending the user credentials
@@ -123,7 +123,7 @@ export const googleAuth = async (
       // saving to the db
       await newUser.save();
       // generatin a token
-      const token = createJWT(newUser._id);
+      const token = createJWT(newUser);
       // seperatin the password fron the user cerds
       const { password, ...rest } = newUser._doc;
       // sending the token with a HTTP only cookie

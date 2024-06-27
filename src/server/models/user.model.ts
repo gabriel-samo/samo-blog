@@ -10,7 +10,7 @@ export interface IUser {
   createdAt: Date | string;
   updatedAt: Date | string;
   profilePicture?: string;
-  name?: string;
+  isAdmin?: boolean;
 }
 
 const userSchema = new mongoose.Schema(
@@ -32,8 +32,9 @@ const userSchema = new mongoose.Schema(
     profilePicture: {
       type: String
     },
-    name: {
-      type: String
+    isAdmin: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }
