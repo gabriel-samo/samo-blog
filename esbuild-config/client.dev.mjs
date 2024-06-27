@@ -28,9 +28,7 @@ try {
     fallback: "public/index.html"
   });
 
-  host = host == "127.0.0.1" ? "localhost" : host;
-
-  console.info(`Hot refresh at http://${host}:${port}`);
+  console.info(`Hot refresh at http://localhost:${port}`);
 } catch (error) {
   console.error("An error occurred:", error);
   process.exit(1);
