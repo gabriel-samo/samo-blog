@@ -1,9 +1,15 @@
 import moment from "moment";
 import { fireBaseApp } from "../firebase";
-import { useAppSelector } from "../redux/hooks";
-import { Alert, Button, FloatingLabel } from "flowbite-react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { Alert, Button, FloatingLabel, Spinner } from "flowbite-react";
 import { CircularProgressbar } from "react-circular-progressbar";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import {
   getDownloadURL,
   getStorage,
@@ -11,33 +17,70 @@ import {
   uploadBytesResumable
 } from "firebase/storage";
 import { makeRequest } from "../utils/makeRequest";
+import {
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess
+} from "../redux/slices/userSlice";
+
+type formInputs = {
+  username: string;
+  password: string;
+  email: string;
+};
 
 function DashProfile() {
-  const { currentUser } = useAppSelector((state) => state.user);
+  const { currentUser, errorMsg, loading } = useAppSelector(
+    (state) => state.user
+  );
   const [imageFile, setImageFile] = useState<null | File>(null);
   const [imageFileURL, setImageFileURL] = useState<null | string>(null);
   const [uploadProgress, setUploadProgress] = useState<null | number>(null);
   const [uploadError, setUploadError] = useState<null | string>(null);
-  const filePickerRef = useRef<HTMLInputElement>(null);
+  const [updatedFields, setUpdatedFields] = useState<{} | formInputs>({});
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
+  const filePickerRef = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUpdatedFields({
+      ...updatedFields,
+      [event.target.id]: event.target.value
+    });
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
     if (file) {
       setImageFile(file);
       setImageFileURL(URL.createObjectURL(file));
     }
   };
 
+  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (Object.keys(updatedFields).length === 0) return;
+    dispatch(updateUserStart());
+    try {
+      const result = await makeRequest.put(
+        `/api/user/update/${currentUser?._id}`,
+        updatedFields
+      );
+      if (result.status === 200) {
+        console.log(result.data);
+        dispatch(updateUserSuccess(result.data));
+      } else {
+        dispatch(updateUserFailure(result.data.message));
+      }
+    } catch (error: any) {
+      console.log(error);
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+
   useEffect(() => {
     imageFile && uploadImage();
   }, [imageFile]);
-
-  // useEffect(() => {
-  //   makeRequest
-  //     .put("/api/user/update", {}, {})
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // }, []);
 
   const uploadImage = async () => {
     setUploadError(null);
@@ -67,6 +110,7 @@ function DashProfile() {
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           setImageFileURL(downloadURL);
+          setUpdatedFields({ ...updatedFields, profilePicture: downloadURL });
         }
       );
     }
@@ -75,7 +119,7 @@ function DashProfile() {
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="file"
           onChange={handleImageChange}
@@ -121,6 +165,7 @@ function DashProfile() {
           label="Username"
           variant="filled"
           defaultValue={currentUser?.username}
+          onChange={handleInputChange}
         />
         <FloatingLabel
           type="email"
@@ -128,26 +173,41 @@ function DashProfile() {
           label="Email"
           variant="filled"
           defaultValue={currentUser?.email}
+          onChange={handleInputChange}
         />
         <FloatingLabel
           type="password"
           id="password"
           label="Password"
           variant="filled"
+          onChange={handleInputChange}
         />
         <Button
-          type="button"
+          type="submit"
           className="w-full"
           gradientDuoTone="purpleToBlue"
           outline
+          disabled={loading || uploadProgress ? true : false}
         >
-          Update
+          {loading || uploadProgress ? (
+            <>
+              <Spinner size="sm" />
+              <span className="pl-3">Loading...</span>
+            </>
+          ) : (
+            "Update"
+          )}
         </Button>
       </form>
       <div className="text-red-500 mt-5 flex justify-between">
         <span className="cursor-pointer">Delete User</span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
+      {errorMsg && (
+        <Alert className="mt-5" color="failure">
+          {errorMsg}
+        </Alert>
+      )}
     </div>
   );
 }

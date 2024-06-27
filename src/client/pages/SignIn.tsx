@@ -17,7 +17,7 @@ type userCreds = {
 
 function SignIn() {
   const [formData, setFormData] = useState<userCreds | null>(null);
-  const { loading, error: errorMsg } = useAppSelector((state) => state.user);
+  const { loading, errorMsg } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

@@ -13,7 +13,7 @@ type currentUserState = {
 
 type userState = {
   currentUser?: null | currentUserState;
-  error?: null | string;
+  errorMsg?: null | string;
   loading?: boolean;
 };
 
@@ -27,22 +27,46 @@ export const userSlice = createSlice({
   reducers: {
     signInStart: (state) => {
       state.loading = true;
-      state.error = null;
+      state.errorMsg = null;
       return state;
     },
     signInSuccess: (state, action: PayloadAction<currentUserState>) => {
       state.currentUser = action.payload;
       state.loading = false;
-      state.error = null;
+      state.errorMsg = null;
       localStorage.setItem("samo_blog-current-user", JSON.stringify(state));
       return state;
     },
     signInFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
-      state.error = action.payload;
+      state.errorMsg = action.payload;
+      return state;
+    },
+    updateUserStart: (state) => {
+      state.loading = true;
+      state.errorMsg = null;
+      return state;
+    },
+    updateUserSuccess: (state, action: PayloadAction<currentUserState>) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.errorMsg = null;
+      localStorage.setItem("samo_blog-current-user", JSON.stringify(state));
+      return state;
+    },
+    updateUserFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.errorMsg = action.payload;
       return state;
     }
   }
 });
 
-export const { signInStart, signInSuccess, signInFailure } = userSlice.actions;
+export const {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure
+} = userSlice.actions;

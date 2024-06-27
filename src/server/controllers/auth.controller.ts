@@ -4,6 +4,7 @@ import { createJWT } from "../utils/createJWT";
 import { errorHandler } from "../utils/errorHandler";
 import { type NextFunction, type Request, type Response } from "express";
 import crypto from "crypto";
+import { cookieOptions } from "../utils/cookieOptions";
 //require('crypto').randomBytes(64).toString('hex');
 
 export const signUp = async (
@@ -74,7 +75,7 @@ export const signIn = async (
       const { password: pass, ...rest } = foundUser._doc;
       return res
         .status(200)
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, cookieOptions)
         .json(rest);
     }
   } catch (error: any) {
@@ -101,7 +102,7 @@ export const googleAuth = async (
       // sending the user credentials
       return res
         .status(200)
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, cookieOptions)
         .json(rest);
     } else {
       // if the user was not found,
@@ -128,7 +129,7 @@ export const googleAuth = async (
       // sending the token with a HTTP only cookie
       return res
         .status(200)
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, cookieOptions)
         .json(rest);
     }
   } catch (error: any) {
