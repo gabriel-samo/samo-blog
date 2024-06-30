@@ -1,4 +1,5 @@
 import "./styles/app.css";
+import "react-quill/dist/quill.snow.css";
 import "react-circular-progressbar/dist/styles.css";
 import App from "./App";
 import React from "react";

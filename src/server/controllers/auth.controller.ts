@@ -117,8 +117,7 @@ export const googleAuth = async (
           Math.random().toString(9).slice(-4),
         profilePicture: googlePhotoUrl,
         password: hashedPass,
-        email,
-        name
+        email
       });
       // saving to the db
       await newUser.save();
@@ -132,6 +131,18 @@ export const googleAuth = async (
         .cookie("access_token", token, cookieOptions)
         .json(rest);
     }
+  } catch (error: any) {
+    // if there is any error, catch it and send an 500 (server error) with an error message
+    return next(error);
+  }
+};
+
+export const validateToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
   } catch (error: any) {
     // if there is any error, catch it and send an 500 (server error) with an error message
     return next(error);

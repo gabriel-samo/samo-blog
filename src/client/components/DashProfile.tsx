@@ -27,6 +27,7 @@ import {
   deleteUserSuccess,
   signout
 } from "../redux/slices/userSlice";
+import { NavLink } from "react-router-dom";
 
 type formInputs = {
   username: string;
@@ -241,6 +242,17 @@ function DashProfile() {
             "Update"
           )}
         </Button>
+        {currentUser?.isAdmin && (
+          <NavLink to="/create-post">
+            <Button
+              type="button"
+              className="w-full"
+              gradientDuoTone="greenToBlue"
+            >
+              Create Post
+            </Button>
+          </NavLink>
+        )}
       </form>
       <div className="text-red-500 mt-5 flex justify-between">
         <span className="cursor-pointer" onClick={() => setShowModel(true)}>

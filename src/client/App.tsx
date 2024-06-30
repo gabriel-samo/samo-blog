@@ -8,8 +8,10 @@ import Page404 from "./pages/Page404";
 import Projects from "./pages/Projects";
 import Header from "./components/Header";
 import DashBoard from "./pages/DashBoard";
+import CreatePost from "./pages/CreatePost";
 import FooterComp from "./components/FooterComp";
 import PrivateRoute from "./components/PrivateRoute";
+import AdminPrivateRoute from "./components/AdminPrivateRoute";
 
 function App() {
   return (
@@ -23,6 +25,9 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<DashBoard />} />
+        </Route>
+        <Route element={<AdminPrivateRoute />}>
+          <Route path="/create-post" element={<CreatePost />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>

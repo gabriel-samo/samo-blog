@@ -9,6 +9,7 @@ type currentUserState = {
   profilePicture?: string;
   name?: string;
   __v: number;
+  isAdmin: boolean;
 };
 
 type userState = {
