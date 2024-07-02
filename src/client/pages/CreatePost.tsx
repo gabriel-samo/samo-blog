@@ -5,7 +5,8 @@ import {
   FileInput,
   FloatingLabel,
   Select,
-  TextInput
+  TextInput,
+  Textarea
 } from "flowbite-react";
 
 function CreatePost() {
@@ -37,11 +38,7 @@ function CreatePost() {
             Upload image
           </Button>
         </div>
-        <ReactQuill
-          theme="snow"
-          placeholder="Write something..."
-          className="h-72 mb-12 dark:text-white"
-        />
+        <ReactQuill theme="snow" className="h-72 mb-12" />
         <Button gradientDuoTone="purpleToBlue">Publish</Button>
       </form>
     </div>

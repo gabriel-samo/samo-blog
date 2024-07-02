@@ -136,15 +136,3 @@ export const googleAuth = async (
     return next(error);
   }
 };
-
-export const validateToken = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-  } catch (error: any) {
-    // if there is any error, catch it and send an 500 (server error) with an error message
-    return next(error);
-  }
-};

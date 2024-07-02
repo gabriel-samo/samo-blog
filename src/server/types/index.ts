@@ -7,6 +7,7 @@ declare global {
         id: string;
         createdAt: string;
         updatedAt: string;
+        isAdmin: boolean;
       };
     }
   }

@@ -1,8 +1,9 @@
 import cors from "cors";
 import express from "express";
+import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
-import cookieParser from "cookie-parser";
+import postRouter from "./routes/post.route";
 import { config } from "./config";
 import { db } from "./DAL/dal_mongoDb";
 import { errorMiddleware } from "./middlewares/error.middleware";
@@ -31,6 +32,7 @@ app.use(cookieParser());
 // all our api routes
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/post", postRouter);
 app.use(errorMiddleware);
 
 // 404 fallback for client side routing
