@@ -9,3 +9,7 @@ body {
 .ql-editor {
   font-size: 1.05rem;
 }
+
+.quill > .ql-container > .ql-editor.ql-blank::before {
+  @apply dark:text-gray-400;
+}
