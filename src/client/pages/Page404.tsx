@@ -2,8 +2,8 @@ import React from "react";
 
 function Page404() {
   return (
-    <div className=" bg-stone-800 text-white">
-      <h1>OOPS! Page was not found... :(</h1>
+    <div className=" bg-slate-900 text-white h-screen flex justify-center items-center">
+      <h1 className="text-4xl font-bold">OOPS! Page was not found... :(</h1>
     </div>
   );
 }
