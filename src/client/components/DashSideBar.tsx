@@ -1,14 +1,15 @@
 import { Sidebar } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { NavLink, useSearchParams } from "react-router-dom";
-import { HiUser, HiArrowSmRight } from "react-icons/hi";
+import { HiUser, HiArrowSmRight, HiDocumentText } from "react-icons/hi";
 import { makeRequest } from "../utils/makeRequest";
 import { signout } from "../redux/slices/userSlice";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 function DashSideBar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [tab, setTab] = useState<string | null>("");
+  const { currentUser } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,13 +38,24 @@ function DashSideBar() {
             className="cursor-pointer"
             active={tab === "profile"}
             icon={HiUser}
-            label={"User"}
+            label={currentUser?.isAdmin ? "Admin" : "User"}
             labelColor="dark"
             as={NavLink}
             to="/dashboard?tab=profile"
           >
             Profile
           </Sidebar.Item>
+          {currentUser?.isAdmin && (
+            <Sidebar.Item
+              className="cursor-pointer"
+              active={tab === "posts"}
+              icon={HiDocumentText}
+              as={NavLink}
+              to="/dashboard?tab=posts"
+            >
+              Posts
+            </Sidebar.Item>
+          )}
           <Sidebar.Item
             className="cursor-pointer"
             icon={HiArrowSmRight}

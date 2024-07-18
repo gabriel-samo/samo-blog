@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import DashSideBar from "../components/DashSideBar";
 import DashProfile from "../components/DashProfile";
+import DashPosts from "../components/DashPosts";
 
 function DashBoard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,6 +21,8 @@ function DashBoard() {
       </div>
       {/* Profile... */}
       {tab === "profile" && <DashProfile />}
+      {/* Posts... */}
+      {tab === "posts" && <DashPosts />}
     </div>
   );
 }
