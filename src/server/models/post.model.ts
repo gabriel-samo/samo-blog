@@ -17,10 +17,7 @@ import mongoose, { Types } from "mongoose";
 
 // NEW
 export interface IPost extends Document {
-<<<<<<< HEAD
   _doc: IPost;
-=======
->>>>>>> d6101fa4ef74593a43efe2d723261f01c89042fa
   userId: string;
   title: string;
   content: string;
