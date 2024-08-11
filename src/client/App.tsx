@@ -1,4 +1,3 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -12,6 +11,8 @@ import CreatePost from "./pages/CreatePost";
 import FooterComp from "./components/FooterComp";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (

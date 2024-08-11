@@ -1,17 +1,28 @@
 import mongoose, { Types } from "mongoose";
 
-export interface IPost {
-  _doc: IPost;
-  __v: number;
-  _id: Types.ObjectId;
+// OLD
+// export interface IPost {
+//   _doc: IPost;
+//   __v: number;
+//   _id: Types.ObjectId;
+//   userId: string;
+//   title: string;
+//   content: string;
+//   image: string;
+//   category: string;
+//   slug: string;
+//   createdAt: Date | string;
+//   updatedAt: Date | string;
+// }
+
+// NEW
+export interface IPost extends Document {
   userId: string;
   title: string;
   content: string;
   image: string;
   category: string;
   slug: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
 }
 
 const postSchema = new mongoose.Schema(

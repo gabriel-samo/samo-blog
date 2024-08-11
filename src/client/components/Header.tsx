@@ -43,7 +43,7 @@ function Header() {
         </span>
         Blog
       </NavLink>
-      <form className="flex gap-4">
+      <form className="flex gap-4 lg:inline">
         <TextInput
           type="text"
           placeholder="Search..."

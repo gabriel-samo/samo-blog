@@ -1,14 +1,22 @@
 import mongoose, { Types } from "mongoose";
 
-export interface IUser {
-  _doc: IUser;
-  __v: number;
-  _id: Types.ObjectId;
+// export interface IUser {
+//   _doc: IUser;
+//   __v: number;
+//   _id: Types.ObjectId;
+//   username: string;
+//   password: string;
+//   email: string;
+//   createdAt: Date | string;
+//   updatedAt: Date | string;
+//   profilePicture?: string;
+//   isAdmin?: boolean;
+// }
+
+export interface IUser extends Document {
   username: string;
   password: string;
   email: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
   profilePicture?: string;
   isAdmin?: boolean;
 }
