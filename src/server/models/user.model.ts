@@ -14,7 +14,10 @@ import mongoose, { Types } from "mongoose";
 // }
 
 export interface IUser extends Document {
+<<<<<<< HEAD
   _doc: IUser;
+=======
+>>>>>>> d6101fa4ef74593a43efe2d723261f01c89042fa
   username: string;
   password: string;
   email: string;
