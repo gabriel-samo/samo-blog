@@ -1,14 +1,14 @@
-import { Alert, Button, FloatingLabel, Spinner } from "flowbite-react";
-import React, { ChangeEvent, SyntheticEvent, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 import { makeRequest } from "../utils/makeRequest";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
+import { Alert, Button, FloatingLabel, Spinner } from "flowbite-react";
 import {
   signInFailure,
   signInStart,
   signInSuccess
 } from "../redux/slices/userSlice";
-import OAuth from "../components/OAuth";
 
 type userCreds = {
   email: string;
@@ -16,10 +16,10 @@ type userCreds = {
 };
 
 function SignIn() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<userCreds | null>(null);
   const { loading, errorMsg } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData!, [event.target.id]: event.target.value });

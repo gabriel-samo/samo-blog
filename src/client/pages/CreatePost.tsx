@@ -120,6 +120,7 @@ function CreatePost() {
             <option value="typescript">TypeScript</option>
             <option value="reactjs">React.js</option>
             <option value="nodejs">Node.js</option>
+            <option value="nextjs">Next.js</option>
           </Select>
         </div>
         <div className="border-4 border-dotted p-3 border-teal-500 flex flex-row justify-between gap-4 items-center">
