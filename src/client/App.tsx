@@ -13,6 +13,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import UpdatePost from "./pages/UpdatePost";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         </Route>
         <Route element={<AdminPrivateRoute />}>
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>

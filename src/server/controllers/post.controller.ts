@@ -101,3 +101,33 @@ export const deletePost = async (
     return next(error);
   }
 };
+
+export const updatePost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (
+      !req.currentUser?.isAdmin ||
+      req.currentUser?.id !== req.params.userId
+    ) {
+      return next(errorHandler(403, "You are not allowed to update this post"));
+    }
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          image: req.body.image
+        }
+      },
+      { new: true }
+    );
+    return res.status(200).json(updatedPost);
+  } catch (error: any) {
+    return next(error);
+  }
+};

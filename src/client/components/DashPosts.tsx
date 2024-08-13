@@ -93,7 +93,7 @@ function DashPosts() {
                     {moment(post.updatedAt).format("DD/MM/YYYY")}
                   </Table.Cell>
                   <Table.Cell>
-                    <Link to={`/post/${post.slug}`}>
+                    <Link to={`/post/${post._id}`}>
                       <img
                         src={post.image}
                         alt={post.title}
@@ -104,7 +104,7 @@ function DashPosts() {
                   <Table.Cell>
                     <Link
                       className="font-medium text-gray-900 dark:text-white"
-                      to={`/post/${post.slug}`}
+                      to={`/post/${post._id}`}
                     >
                       {post.title}
                     </Link>
@@ -124,7 +124,7 @@ function DashPosts() {
                   <Table.Cell>
                     <Link
                       className="text-teal-500 hover:underline"
-                      to={`/post/${post._id}`}
+                      to={`/update-post/${post._id}`}
                     >
                       <span>Edit</span>
                     </Link>
