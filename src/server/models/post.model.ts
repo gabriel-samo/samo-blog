@@ -1,4 +1,4 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 // OLD
 // export interface IPost {

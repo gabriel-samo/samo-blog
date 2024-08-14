@@ -9,7 +9,7 @@ import { toggleTheme } from "../redux/slices/themeSlice";
 import { makeRequest } from "../utils/makeRequest";
 import { signout } from "../redux/slices/userSlice";
 
-function Header() {
+function MyHeader() {
   const path = useLocation().pathname;
   const { currentUser } = useAppSelector((state) => state.user);
   const { theme } = useAppSelector((state) => state.theme);
@@ -111,4 +111,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default MyHeader;

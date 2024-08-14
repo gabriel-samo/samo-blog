@@ -5,10 +5,10 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Page404 from "./pages/Page404";
 import Projects from "./pages/Projects";
-import Header from "./components/Header";
 import DashBoard from "./pages/DashBoard";
 import CreatePost from "./pages/CreatePost";
-import FooterComp from "./components/FooterComp";
+import MyHeader from "./components/MyHeader";
+import MyFooter from "./components/MyFooter";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
 
@@ -18,7 +18,7 @@ import UpdatePost from "./pages/UpdatePost";
 function App() {
   return (
     <BrowserRouter>
-      <Header />
+      <MyHeader />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -34,7 +34,7 @@ function App() {
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>
-      <FooterComp />
+      <MyFooter />
     </BrowserRouter>
   );
 }

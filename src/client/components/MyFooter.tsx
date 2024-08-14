@@ -9,7 +9,7 @@ import {
 } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 
-function FooterComp() {
+function MyFooter() {
   return (
     <Footer container className="border border-t-8 border-teal-500">
       <div className="w-full max-w-7xl mx-auto">
@@ -108,4 +108,4 @@ function FooterComp() {
   );
 }
 
-export default FooterComp;
+export default MyFooter;
