@@ -111,11 +111,6 @@ export const getUsers = async (
       .skip(startIndex)
       .limit(limit);
 
-    const usersWithoutPassword = users.map((user) => {
-      const { password, ...rest } = user._doc;
-      return rest;
-    });
-
     const totalUsers = await User.countDocuments();
 
     const now = new Date();
@@ -131,7 +126,6 @@ export const getUsers = async (
 
     return res.status(200).json({
       users,
-      // users: usersWithoutPassword,
       totalUsers,
       lastMonthUsers
     });
