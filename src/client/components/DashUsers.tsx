@@ -54,17 +54,20 @@ function DashUsers() {
   };
 
   const handleDeleteUser = async () => {
-    setShowDeleteModal(false);
-    //   try {
-    //     const res = await makeRequest.delete(
-    //       `/api/user/delete/${userIdToDelete}/${currentUser!._id}`
-    //     );
-    //     if (res.status === 200) {
-    //       setUsers(users.filter((user) => user._id !== userIdToDelete));
-    //     }
-    //   } catch (error: any) {
-    //     console.log(error);
-    //   }
+    try {
+      const res = await makeRequest.delete(
+        `/api/user/delete/${userIdToDelete}`
+      );
+      if (res.status === 200) {
+        setUsers(users.filter((user) => user._id !== userIdToDelete));
+        setShowDeleteModal(false);
+      } else {
+        setShowDeleteModal(false);
+        console.log(res.data.message);
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (
