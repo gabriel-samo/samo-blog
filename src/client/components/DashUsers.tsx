@@ -4,7 +4,7 @@ import { useAppSelector } from "../redux/hooks";
 import { UserModel } from "../models/user.model";
 import { makeRequest } from "../utils/makeRequest";
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, Modal, Table } from "flowbite-react";
+import { Avatar, Button, Modal, Spinner, Table, Toast } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
@@ -12,6 +12,8 @@ function DashUsers() {
   const { currentUser } = useAppSelector((state) => state.user);
   const isDarkMode = useAppSelector((state) => state.theme.theme === "dark");
 
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(true);
   const [users, setUsers] = useState<UserModel[] | []>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -19,6 +21,8 @@ function DashUsers() {
 
   useEffect(() => {
     const getUsers = async () => {
+      setError(false);
+      setLoading(true);
       try {
         const res = await makeRequest.get(`/api/user/get-users`);
         if (res.status === 200) {
@@ -28,8 +32,10 @@ function DashUsers() {
           }
         }
       } catch (error: any) {
+        setError(true);
         console.log(error);
       }
+      setLoading(false);
     };
     if (currentUser?.isAdmin) {
       getUsers();
@@ -37,6 +43,7 @@ function DashUsers() {
   }, []);
 
   const handleShowMore = async () => {
+    setLoading(true);
     try {
       const startIndex = users.length;
       const res = await makeRequest.get(
@@ -49,11 +56,14 @@ function DashUsers() {
         }
       }
     } catch (error: any) {
+      setError(true);
       console.log(error);
     }
+    setLoading(false);
   };
 
   const handleDeleteUser = async () => {
+    setLoading(true);
     try {
       const res = await makeRequest.delete(
         `/api/user/delete/${userIdToDelete}`
@@ -66,13 +76,25 @@ function DashUsers() {
         console.log(res.data.message);
       }
     } catch (error: any) {
+      setError(true);
       console.log(error);
     }
+    setLoading(false);
   };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {currentUser?.isAdmin && users.length > 0 ? (
+      {loading && (
+        <div className="flex justify-center items-center h-screen">
+          <Spinner size="xl" />
+        </div>
+      )}
+      {error && (
+        <Toast color="red" duration={1000}>
+          Error while requesting the users
+        </Toast>
+      )}
+      {currentUser?.isAdmin && users.length > 0 && (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
@@ -133,8 +155,6 @@ function DashUsers() {
             </button>
           )}
         </>
-      ) : (
-        <p>No users found</p>
       )}
       {showDeleteModal && (
         <Modal

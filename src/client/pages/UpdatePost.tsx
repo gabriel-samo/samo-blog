@@ -110,7 +110,7 @@ function UpdatePost() {
         return;
       } else if (response.status === 200) {
         setUpdateError(null);
-        navigate(`/posts/${response.data.slug}`);
+        navigate(`/post/${response.data.slug}`);
       }
     } catch (error: any) {
       console.error(error);

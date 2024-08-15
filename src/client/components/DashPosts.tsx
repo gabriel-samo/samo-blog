@@ -1,10 +1,10 @@
 import moment from "moment";
-import { Button, Modal, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
 import { PostModel } from "../models/post.model";
 import { makeRequest } from "../utils/makeRequest";
 import React, { useEffect, useState } from "react";
+import { Button, Modal, Spinner, Table, Toast } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 function DashPosts() {
@@ -14,9 +14,11 @@ function DashPosts() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState<string | null>(null);
   const [showMore, setShowMore] = useState(true);
-  // console.log(userPosts);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const getPosts = async () => {
       try {
         const res = await makeRequest.get(
@@ -29,8 +31,10 @@ function DashPosts() {
           }
         }
       } catch (error: any) {
+        setError(true);
         console.log(error);
       }
+      setLoading(false);
     };
     if (currentUser?.isAdmin) {
       getPosts();
@@ -38,6 +42,7 @@ function DashPosts() {
   }, [currentUser?._id]);
 
   const handleShowMore = async () => {
+    setLoading(true);
     try {
       const startIndex = userPosts.length;
       const res = await makeRequest.get(
@@ -52,9 +57,11 @@ function DashPosts() {
     } catch (error: any) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const handleDeletePost = async (postId: string) => {
+    setLoading(true);
     setShowDeleteModal(false);
     try {
       const res = await makeRequest.delete(
@@ -66,11 +73,18 @@ function DashPosts() {
     } catch (error: any) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {currentUser?.isAdmin && userPosts.length > 0 ? (
+      {loading && (
+        <div className="flex justify-center items-center h-screen">
+          <Spinner size="xl" />
+        </div>
+      )}
+      {error && <Toast color="red">Error while requesting the posts</Toast>}
+      {currentUser?.isAdmin && userPosts.length > 0 && (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
@@ -93,7 +107,7 @@ function DashPosts() {
                     {moment(post.updatedAt).format("DD/MM/YYYY")}
                   </Table.Cell>
                   <Table.Cell>
-                    <Link to={`/post/${post._id}`}>
+                    <Link to={`/post/${post.slug}`}>
                       <img
                         src={post.image}
                         alt={post.title}
@@ -104,7 +118,7 @@ function DashPosts() {
                   <Table.Cell>
                     <Link
                       className="font-medium text-gray-900 dark:text-white"
-                      to={`/post/${post._id}`}
+                      to={`/post/${post.slug}`}
                     >
                       {post.title}
                     </Link>
@@ -142,8 +156,6 @@ function DashPosts() {
             </button>
           )}
         </>
-      ) : (
-        <p>No posts found</p>
       )}
       {showDeleteModal && (
         <Modal

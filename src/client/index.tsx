@@ -20,10 +20,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+    {/* </React.StrictMode> */}
   </Provider>
 );
