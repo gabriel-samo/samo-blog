@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
 import postRouter from "./routes/post.route";
+import commentRouter from "./routes/comment.route";
+
 import { config } from "./config";
 import { db } from "./DAL/dal_mongoDb";
 import { errorMiddleware } from "./middlewares/error.middleware";
@@ -33,6 +35,7 @@ app.use(cookieParser());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
+app.use("/api/comment", commentRouter);
 app.use(errorMiddleware);
 
 // 404 fallback for client side routing

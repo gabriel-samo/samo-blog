@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Spinner, Toast } from "flowbite-react";
 import CallToActions from "../components/CallToActions";
+import CommentSection from "../components/CommentSection";
 
 function PostPage() {
   const { postSlug } = useParams();
@@ -123,6 +124,7 @@ function PostPage() {
           <div className="max-w-4xl mx-auto w-full">
             <CallToActions />
           </div>
+          <CommentSection postId={post._id} />
         </main>
       )}
     </>

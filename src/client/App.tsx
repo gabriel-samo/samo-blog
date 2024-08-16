@@ -5,25 +5,28 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Page404 from "./pages/Page404";
 import Projects from "./pages/Projects";
+import PostPage from "./pages/PostPage";
 import DashBoard from "./pages/DashBoard";
 import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/UpdatePost";
 import MyHeader from "./components/MyHeader";
 import MyFooter from "./components/MyFooter";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import UpdatePost from "./pages/UpdatePost";
-import PostPage from "./pages/PostPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
-  // Scroll restoration
-  useEffect(() => {
-    window.history.scrollRestoration = "manual";
-  }, []);
+  // repalced with ScrollToTop component
+  // // Scroll restoration
+  // useEffect(() => {
+  //   window.history.scrollRestoration = "manual";
+  // }, []);
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <MyHeader />
       <Routes>
         <Route path="/" element={<Home />} />

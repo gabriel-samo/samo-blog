@@ -17,7 +17,7 @@ import mongoose, { Document } from "mongoose";
 
 // NEW
 export interface IPost extends Document {
-  _doc: IPost;
+  // _doc: IPost;
   userId: string;
   title: string;
   content: string;
