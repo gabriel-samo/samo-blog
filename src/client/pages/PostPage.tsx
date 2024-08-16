@@ -5,6 +5,7 @@ import { makeRequest } from "../utils/makeRequest";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Spinner, Toast } from "flowbite-react";
+import CallToActions from "../components/CallToActions";
 
 function PostPage() {
   const { postSlug } = useParams();
@@ -118,6 +119,9 @@ function PostPage() {
             // dangerouslySetInnerHTML={{ __html: post.content }}
           >
             {HTMLReactParser(post.content)}
+          </div>
+          <div className="max-w-4xl mx-auto w-full">
+            <CallToActions />
           </div>
         </main>
       )}
