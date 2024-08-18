@@ -5,7 +5,8 @@ import { makeRequest } from "../utils/makeRequest";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CommentModel } from "../models/comment.model";
-import { Alert, Button, Textarea } from "flowbite-react";
+import { Alert, Button, Modal, Textarea } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 type Props = {
   postId: string;
@@ -13,9 +14,12 @@ type Props = {
 
 function CommentSection({ postId }: Props) {
   const { currentUser } = useAppSelector((state) => state.user);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [commentContent, setCommentContent] = useState<string>("");
   const [postComments, setPostComments] = useState<CommentModel[]>([]);
   const [commentError, setCommentError] = useState<string | null>(null);
+  const isDarkMode = useAppSelector((state) => state.theme.theme === "dark");
+  const [commentToDelete, setCommentToDelete] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -90,6 +94,26 @@ function CommentSection({ postId }: Props) {
     );
   };
 
+  const handleDelete = async (commentId: string) => {
+    setShowDeleteModal(false);
+    try {
+      if (!currentUser) {
+        navigate("/sign-in");
+        return;
+      }
+      const res = await makeRequest.delete(
+        `/api/comment/delete-comment/${commentId}`
+      );
+      if (res.status === 200) {
+        setPostComments((prev) =>
+          prev.filter((comment) => comment._id !== commentId)
+        );
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
       {currentUser ? (
@@ -161,12 +185,44 @@ function CommentSection({ postId }: Props) {
               comment={comment}
               onLike={handleLike}
               onEdit={handleEdit}
+              onDelete={(commentId) => {
+                setCommentToDelete(commentId);
+                setShowDeleteModal(true);
+              }}
             />
           ))}
         </>
       ) : (
         <p className="text-gray-500 text-sm my-5">No comments yet!</p>
       )}
+      <Modal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        popup
+        size="md"
+        className={`${isDarkMode ? "dark" : ""}`}
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this comment?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button
+                color="failure"
+                onClick={() => handleDelete(commentToDelete!)}
+              >
+                Yes I'm Sure
+              </Button>
+              <Button color="gray" onClick={() => setShowDeleteModal(false)}>
+                No, Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

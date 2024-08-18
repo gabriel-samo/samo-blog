@@ -1,18 +1,21 @@
 import moment from "moment";
-import { PostModel } from "../models/post.model";
 import HTMLReactParser from "html-react-parser";
-import { makeRequest } from "../utils/makeRequest";
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Button, Spinner, Toast } from "flowbite-react";
 import CallToActions from "../components/CallToActions";
 import CommentSection from "../components/CommentSection";
 
+import { PostModel } from "../models/post.model";
+import { makeRequest } from "../utils/makeRequest";
+import { Link, useParams } from "react-router-dom";
+import { Button, Spinner, Toast } from "flowbite-react";
+import React, { useEffect, useRef, useState } from "react";
+import PostCard from "../components/PostCard";
+
 function PostPage() {
   const { postSlug } = useParams();
-  const [post, setPost] = useState<PostModel | null>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [post, setPost] = useState<PostModel | null>(null);
+  const [recentPosts, setRecentPosts] = useState<PostModel[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -34,6 +37,20 @@ function PostPage() {
         setLoading(false);
       });
   }, [postSlug]);
+
+  useEffect(() => {
+    makeRequest
+      .get(`/api/post/allPosts?limit=3`)
+      .then((res) => {
+        if (res.status === 200) {
+          setRecentPosts(res.data.posts);
+        }
+      })
+      .catch((err) => {
+        setError(true);
+        console.log(err);
+      });
+  }, []);
 
   const postContentRef = useRef<HTMLDivElement>(null);
 
@@ -125,6 +142,15 @@ function PostPage() {
             <CallToActions />
           </div>
           <CommentSection postId={post._id} />
+          <div className="flex flex-col justify-center items-center mb-5">
+            <h2 className="text-xl mt-5">Recent Articles</h2>
+            <div className="flex flex-wrap gap-5 mt-5 justify-center">
+              {recentPosts &&
+                recentPosts.map((post) => (
+                  <PostCard key={post._id} post={post} />
+                ))}
+            </div>
+          </div>
         </main>
       )}
     </>
