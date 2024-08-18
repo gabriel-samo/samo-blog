@@ -3,7 +3,7 @@ import { CommentModel } from "../models/comment.model";
 import { makeRequest } from "../utils/makeRequest";
 import { UserModel } from "../models/user.model";
 import moment from "moment";
-import { FaEdit, FaThumbsUp } from "react-icons/fa";
+import { FaEdit, FaThumbsUp, FaTrash } from "react-icons/fa";
 import { useAppSelector } from "../redux/hooks";
 import { Button, Textarea } from "flowbite-react";
 
@@ -11,9 +11,10 @@ type Props = {
   comment: CommentModel;
   onLike: (commentId: string) => void;
   onEdit: (comment: CommentModel, editedContent: string) => void;
+  onDelete: (commentId: string) => void;
 };
 
-const SingleComment = ({ comment, onLike, onEdit }: Props) => {
+const SingleComment = ({ comment, onLike, onEdit, onDelete }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<UserModel | null>(null);
   const { currentUser } = useAppSelector((state) => state.user);
@@ -115,12 +116,20 @@ const SingleComment = ({ comment, onLike, onEdit }: Props) => {
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    className="transition-all text-gray-400 hover:text-blue-500"
-                    onClick={handleEdit}
-                  >
-                    <FaEdit />
-                  </button>
+                  <>
+                    <button
+                      className="transition-all text-gray-400 hover:text-blue-500"
+                      onClick={handleEdit}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      className="transition-all text-gray-400 hover:text-red-500"
+                      onClick={() => onDelete(comment._id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </>
                 )}
             </div>
           </>
