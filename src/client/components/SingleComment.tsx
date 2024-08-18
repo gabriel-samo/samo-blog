@@ -3,13 +3,17 @@ import { CommentModel } from "../models/comment.model";
 import { makeRequest } from "../utils/makeRequest";
 import { UserModel } from "../models/user.model";
 import moment from "moment";
+import { FaThumbsUp } from "react-icons/fa";
+import { useAppSelector } from "../redux/hooks";
 
 type Props = {
   comment: CommentModel;
+  onLike: (commentId: string) => void;
 };
 
-const SingleComment = ({ comment }: Props) => {
+const SingleComment = ({ comment, onLike }: Props) => {
   const [user, setUser] = useState<UserModel | null>(null);
+  const { currentUser } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     makeRequest
@@ -37,6 +41,24 @@ const SingleComment = ({ comment }: Props) => {
           </span>
         </div>
         <p className="text-gray-500 pb-2">{comment.content}</p>
+        <div className="flex items-center pt-2 test-xs border-t dark:border-gray-700 max-w-fit gap-2">
+          <button
+            className={`transition-all hover:text-blue-500 ${
+              comment.likes.includes(currentUser?._id!)
+                ? "text-blue-500"
+                : "text-gray-400"
+            }`}
+            onClick={() => onLike(comment._id)}
+          >
+            <FaThumbsUp className="text-sm" />
+          </button>
+          <p className="text-gray-400">
+            {comment.numberOfLikes > 0 &&
+              `${comment.numberOfLikes} ${
+                comment.numberOfLikes === 1 ? "like" : "likes"
+              }`}
+          </p>
+        </div>
       </div>
     </div>
   );

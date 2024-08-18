@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../redux/hooks";
-import { Link } from "react-router-dom";
-import { Alert, Button, Textarea } from "flowbite-react";
-import { CommentModel } from "../models/comment.model";
-import { makeRequest } from "../utils/makeRequest";
 import SingleComment from "./SingleComment";
+
+import { useAppSelector } from "../redux/hooks";
+import { makeRequest } from "../utils/makeRequest";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CommentModel } from "../models/comment.model";
+import { Alert, Button, Textarea } from "flowbite-react";
 
 type Props = {
   postId: string;
@@ -12,9 +13,11 @@ type Props = {
 
 function CommentSection({ postId }: Props) {
   const { currentUser } = useAppSelector((state) => state.user);
-  const [postComments, setPostComments] = useState<CommentModel[]>([]);
   const [commentContent, setCommentContent] = useState<string>("");
+  const [postComments, setPostComments] = useState<CommentModel[]>([]);
   const [commentError, setCommentError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCommentError(null);
@@ -22,7 +25,6 @@ function CommentSection({ postId }: Props) {
       .get(`/api/comment/post-comments/${postId}`)
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data);
           setPostComments(res.data);
         }
       })
@@ -50,6 +52,33 @@ function CommentSection({ postId }: Props) {
     } catch (error: any) {
       console.log(error);
       setCommentError(error.message);
+    }
+  };
+
+  const handleLike = async (commentId: string) => {
+    if (!currentUser) {
+      navigate("/sign-in");
+      return;
+    }
+    try {
+      const res = await makeRequest.put(
+        `/api/comment/like-comment/${commentId}`
+      );
+      if (res.status === 200) {
+        setPostComments((prev) =>
+          prev.map((comment) =>
+            comment._id === commentId
+              ? {
+                  ...comment,
+                  likes: res.data.likes,
+                  numberOfLikes: res.data.likes.length
+                }
+              : comment
+          )
+        );
+      }
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
@@ -119,7 +148,11 @@ function CommentSection({ postId }: Props) {
             </div>
           </div>
           {postComments.map((comment) => (
-            <SingleComment key={comment._id} comment={comment} />
+            <SingleComment
+              key={comment._id}
+              comment={comment}
+              onLike={handleLike}
+            />
           ))}
         </>
       ) : (

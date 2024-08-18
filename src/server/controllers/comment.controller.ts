@@ -44,3 +44,31 @@ export const getPostComments = async (
     next(error);
   }
 };
+
+export const likeComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) {
+      return next(errorHandler(404, "Comment not found"));
+    }
+    const userIndex = comment.likes.indexOf(req.currentUser?.id!);
+    if (userIndex === -1) {
+      comment.numberOfLikes += 1;
+      comment.likes.push(req.currentUser?.id!);
+    } else {
+      comment.numberOfLikes <= 0
+        ? (comment.numberOfLikes = 0)
+        : (comment.numberOfLikes -= 1);
+      comment.likes.splice(userIndex, 1);
+    }
+    await comment.save();
+    res.status(200).json(comment);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
