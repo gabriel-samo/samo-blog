@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../redux/hooks";
 import { Link } from "react-router-dom";
 import { Alert, Button, Textarea } from "flowbite-react";
 import { CommentModel } from "../models/comment.model";
 import { makeRequest } from "../utils/makeRequest";
+import SingleComment from "./SingleComment";
 
 type Props = {
   postId: string;
@@ -14,6 +15,21 @@ function CommentSection({ postId }: Props) {
   const [postComments, setPostComments] = useState<CommentModel[]>([]);
   const [commentContent, setCommentContent] = useState<string>("");
   const [commentError, setCommentError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCommentError(null);
+    makeRequest
+      .get(`/api/comment/post-comments/${postId}`)
+      .then((res) => {
+        if (res.status === 200) {
+          // console.log(res.data);
+          setPostComments(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [postId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,7 +44,7 @@ function CommentSection({ postId }: Props) {
         content: commentContent
       });
       if (res.status === 201) {
-        // setPostComments([res.data, ...postComments]);
+        setPostComments((prev) => [res.data, ...prev]);
         setCommentContent("");
       }
     } catch (error: any) {
@@ -93,6 +109,21 @@ function CommentSection({ postId }: Props) {
             </Alert>
           )}
         </form>
+      )}
+      {postComments.length > 0 ? (
+        <>
+          <div className="flex items-center gap-1 my-5 text-gray-500 text-sm">
+            <p>Comments</p>
+            <div className="border border-gray-400 py-1 px-2 rounded-sm">
+              <p>{postComments.length}</p>
+            </div>
+          </div>
+          {postComments.map((comment) => (
+            <SingleComment key={comment._id} comment={comment} />
+          ))}
+        </>
+      ) : (
+        <p className="text-gray-500 text-sm my-5">No comments yet!</p>
       )}
     </div>
   );

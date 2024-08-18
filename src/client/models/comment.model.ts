@@ -7,4 +7,5 @@ export interface CommentModel {
   numberOfLikes: number;
   createdAt: Date | string;
   updatedAt: Date | string;
+  __v: number;
 }
