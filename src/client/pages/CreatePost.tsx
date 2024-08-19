@@ -86,7 +86,7 @@ function CreatePost() {
         return;
       } else if (response.status === 201) {
         setPublishError(null);
-        navigate(`/posts/${response.data.slug}`);
+        navigate(`/post/${response.data.slug}`);
       }
     } catch (error: any) {
       console.error(error);

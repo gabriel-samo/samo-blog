@@ -119,3 +119,32 @@ export const deleteComment = async (
     next(error);
   }
 };
+
+export const getAllComments = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.currentUser?.isAdmin) {
+      return next(errorHandler(403, "You are not allowed to access this"));
+    }
+    const startIndex = +req.query.startIndex! || 0;
+    const limit = +req.query.limit! || 9;
+    const sortDirection = req.query.sort === "desc" ? -1 : 1;
+    const comments = await Comment.find()
+      .sort({ createdAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+    const totalComments = await Comment.countDocuments();
+    const today = new Date();
+    const oneMonthAgo = new Date(today.setMonth(today.getMonth() - 1));
+    const lastMonthComments = await Comment.countDocuments({
+      createdAt: { $gte: oneMonthAgo }
+    });
+    res.status(200).json({ comments, totalComments, lastMonthComments });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};

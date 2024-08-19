@@ -4,6 +4,7 @@ import DashSideBar from "../components/DashSideBar";
 import DashProfile from "../components/DashProfile";
 import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
+import DashComments from "../components/DashComments";
 
 function DashBoard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,6 +27,8 @@ function DashBoard() {
       {tab === "posts" && <DashPosts />}
       {/* Users... */}
       {tab === "users" && <DashUsers />}
+      {/* Comments... */}
+      {tab === "comments" && <DashComments />}
     </div>
   );
 }

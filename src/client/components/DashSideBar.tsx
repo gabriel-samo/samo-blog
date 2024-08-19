@@ -5,7 +5,8 @@ import {
   HiUser,
   HiArrowSmRight,
   HiDocumentText,
-  HiOutlineUserGroup
+  HiOutlineUserGroup,
+  HiAnnotation
 } from "react-icons/hi";
 import { makeRequest } from "../utils/makeRequest";
 import { signout } from "../redux/slices/userSlice";
@@ -51,26 +52,35 @@ function DashSideBar() {
             Profile
           </Sidebar.Item>
           {currentUser?.isAdmin && (
-            <Sidebar.Item
-              className="cursor-pointer"
-              active={tab === "posts"}
-              icon={HiDocumentText}
-              as={NavLink}
-              to="/dashboard?tab=posts"
-            >
-              Posts
-            </Sidebar.Item>
-          )}
-          {currentUser?.isAdmin && (
-            <Sidebar.Item
-              className="cursor-pointer"
-              active={tab === "users"}
-              icon={HiOutlineUserGroup}
-              as={NavLink}
-              to="/dashboard?tab=users"
-            >
-              Users
-            </Sidebar.Item>
+            <>
+              <Sidebar.Item
+                className="cursor-pointer"
+                active={tab === "posts"}
+                icon={HiDocumentText}
+                as={NavLink}
+                to="/dashboard?tab=posts"
+              >
+                Posts
+              </Sidebar.Item>
+              <Sidebar.Item
+                className="cursor-pointer"
+                active={tab === "users"}
+                icon={HiOutlineUserGroup}
+                as={NavLink}
+                to="/dashboard?tab=users"
+              >
+                Users
+              </Sidebar.Item>
+              <Sidebar.Item
+                className="cursor-pointer"
+                active={tab === "comments"}
+                icon={HiAnnotation}
+                as={NavLink}
+                to="/dashboard?tab=comments"
+              >
+                Comments
+              </Sidebar.Item>
+            </>
           )}
           <Sidebar.Item
             className="cursor-pointer"

@@ -94,7 +94,7 @@ function DashUsers() {
           Error while requesting the users
         </Toast>
       )}
-      {currentUser?.isAdmin && users.length > 0 && (
+      {currentUser?.isAdmin && users.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
@@ -155,6 +155,10 @@ function DashUsers() {
             </button>
           )}
         </>
+      ) : (
+        <div className="flex justify-center items-center h-screen">
+          <h2 className="text-2xl font-bold">No users found</h2>
+        </div>
       )}
       {showDeleteModal && (
         <Modal
