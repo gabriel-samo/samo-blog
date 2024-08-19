@@ -1,4 +1,5 @@
 import moment from "moment";
+import PostCard from "../components/PostCard";
 import HTMLReactParser from "html-react-parser";
 import CallToActions from "../components/CallToActions";
 import CommentSection from "../components/CommentSection";
@@ -8,7 +9,6 @@ import { makeRequest } from "../utils/makeRequest";
 import { Link, useParams } from "react-router-dom";
 import { Button, Spinner, Toast } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
-import PostCard from "../components/PostCard";
 
 function PostPage() {
   const { postSlug } = useParams();
@@ -20,7 +20,7 @@ function PostPage() {
   useEffect(() => {
     setLoading(true);
     makeRequest
-      .get(`/api/post/allPosts?slug=${postSlug}`)
+      .get(`/api/post/all-posts?slug=${postSlug}`)
       .then((res) => {
         if (res.status === 200) {
           setPost(res.data.posts[0]);
@@ -40,7 +40,7 @@ function PostPage() {
 
   useEffect(() => {
     makeRequest
-      .get(`/api/post/allPosts?limit=3`)
+      .get(`/api/post/all-posts?limit=3`)
       .then((res) => {
         if (res.status === 200) {
           setRecentPosts(res.data.posts);

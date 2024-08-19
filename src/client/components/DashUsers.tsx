@@ -24,7 +24,7 @@ function DashUsers() {
       setError(false);
       setLoading(true);
       try {
-        const res = await makeRequest.get(`/api/user/get-users`);
+        const res = await makeRequest.get(`/api/user/all-users`);
         if (res.status === 200) {
           setUsers(res.data.users);
           if (res.data.users.length < 9) {
@@ -47,7 +47,7 @@ function DashUsers() {
     try {
       const startIndex = users.length;
       const res = await makeRequest.get(
-        `/api/user/get-users?startIndex=${startIndex}`
+        `/api/user/all-users?startIndex=${startIndex}`
       );
       if (res.status === 200) {
         setUsers((prev) => [...prev, ...res.data.users]);

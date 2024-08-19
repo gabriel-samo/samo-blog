@@ -13,7 +13,7 @@ const userRouter = express.Router();
 userRouter.put("/update/:userId", verifyToken, updateUser);
 userRouter.delete("/delete/:userId", verifyToken, deleteUser);
 userRouter.post("/signout", signout);
-userRouter.get("/get-users", verifyToken, getUsers);
+userRouter.get("/all-users", verifyToken, getUsers);
 userRouter.get("/:userId", getUser);
 
 export default userRouter;

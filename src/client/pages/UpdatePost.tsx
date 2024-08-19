@@ -1,6 +1,7 @@
 import moment from "moment";
 import ReactQuill from "react-quill";
 import { fireBaseApp } from "../firebase";
+import { useAppSelector } from "../redux/hooks";
 import { makeRequest } from "../utils/makeRequest";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,7 +13,6 @@ import {
   ref,
   uploadBytesResumable
 } from "firebase/storage";
-import { useAppSelector } from "../redux/hooks";
 
 type PostData = {
   _id?: string;
@@ -36,7 +36,7 @@ function UpdatePost() {
 
   useEffect(() => {
     makeRequest
-      .get(`/api/post/allPosts?postId=${postId}`)
+      .get(`/api/post/all-posts?postId=${postId}`)
       .then((res) => {
         if (res.status === 200) {
           setUpdateError(null);

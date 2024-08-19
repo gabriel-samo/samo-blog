@@ -101,9 +101,7 @@ function CommentSection({ postId }: Props) {
         navigate("/sign-in");
         return;
       }
-      const res = await makeRequest.delete(
-        `/api/comment/delete-comment/${commentId}`
-      );
+      const res = await makeRequest.delete(`/api/comment/delete/${commentId}`);
       if (res.status === 200) {
         setPostComments((prev) =>
           prev.filter((comment) => comment._id !== commentId)

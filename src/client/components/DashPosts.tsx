@@ -22,7 +22,7 @@ function DashPosts() {
     const getPosts = async () => {
       try {
         const res = await makeRequest.get(
-          `/api/post/allPosts?userId=${currentUser!._id}`
+          `/api/post/all-posts?userId=${currentUser!._id}`
         );
         if (res.status === 200) {
           setUserPosts(res.data.posts);
@@ -46,7 +46,9 @@ function DashPosts() {
     try {
       const startIndex = userPosts.length;
       const res = await makeRequest.get(
-        `/api/post/allPosts?userId=${currentUser!._id}&startIndex=${startIndex}`
+        `/api/post/all-posts?userId=${
+          currentUser!._id
+        }&startIndex=${startIndex}`
       );
       if (res.status === 200) {
         setUserPosts((prev) => [...prev, ...res.data.posts]);

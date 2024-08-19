@@ -1,16 +1,17 @@
 import { Sidebar } from "flowbite-react";
+import { makeRequest } from "../utils/makeRequest";
 import React, { useEffect, useState } from "react";
+import { signout } from "../redux/slices/userSlice";
 import { NavLink, useSearchParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
   HiUser,
   HiArrowSmRight,
   HiDocumentText,
   HiOutlineUserGroup,
-  HiAnnotation
+  HiAnnotation,
+  HiChartPie
 } from "react-icons/hi";
-import { makeRequest } from "../utils/makeRequest";
-import { signout } from "../redux/slices/userSlice";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 function DashSideBar() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,6 +41,17 @@ function DashSideBar() {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
+          {currentUser && currentUser.isAdmin && (
+            <Sidebar.Item
+              className="cursor-pointer"
+              active={tab === "dashboard" || !tab}
+              icon={HiChartPie}
+              as={NavLink}
+              to="/dashboard?tab=dashboard"
+            >
+              Dashboard
+            </Sidebar.Item>
+          )}
           <Sidebar.Item
             className="cursor-pointer"
             active={tab === "profile"}

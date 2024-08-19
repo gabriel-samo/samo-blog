@@ -34,12 +34,9 @@ const SingleComment = ({ comment, onLike, onEdit, onDelete }: Props) => {
 
   const handleSave = async () => {
     try {
-      const res = await makeRequest.put(
-        `/api/comment/edit-comment/${comment._id}`,
-        {
-          content: editedContent
-        }
-      );
+      const res = await makeRequest.put(`/api/comment/edit/${comment._id}`, {
+        content: editedContent
+      });
       if (res.status === 200) {
         onEdit(comment, editedContent);
         setIsEditing(false);

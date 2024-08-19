@@ -13,8 +13,8 @@ const DashComments = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(true);
-  const [comments, setComments] = useState<CommentModel[] | []>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [comments, setComments] = useState<CommentModel[] | []>([]);
   const [commentIdToDelete, setCommentIdToDelete] = useState<string | null>(
     null
   );
@@ -66,7 +66,7 @@ const DashComments = () => {
     setLoading(true);
     try {
       const res = await makeRequest.delete(
-        `/api/comment/delete-comment/${commentIdToDelete}`
+        `/api/comment/delete/${commentIdToDelete}`
       );
       if (res.status === 200) {
         setComments(

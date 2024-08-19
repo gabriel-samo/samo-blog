@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import DashSideBar from "../components/DashSideBar";
-import DashProfile from "../components/DashProfile";
+
 import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
+import DashSideBar from "../components/DashSideBar";
+import DashProfile from "../components/DashProfile";
 import DashComments from "../components/DashComments";
+import DashboardComponents from "../components/DashboardComponents";
 
 function DashBoard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,6 +23,8 @@ function DashBoard() {
         {/* Sidebar */}
         <DashSideBar />
       </div>
+      {/* Dashboard Components */}
+      {(tab === "dashboard" || !tab) && <DashboardComponents />}
       {/* Profile... */}
       {tab === "profile" && <DashProfile />}
       {/* Posts... */}
