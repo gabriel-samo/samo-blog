@@ -8,6 +8,7 @@ import {
   BsYoutube
 } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
+import { FiMessageCircle } from "react-icons/fi";
 
 function MyFooter() {
   return (
@@ -17,12 +18,16 @@ function MyFooter() {
           <div className="mt-5">
             <NavLink
               to="/"
-              className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white"
+              className="flex gap-2 whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
             >
-              <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white">
-                Samo's
-              </span>
-              Blog
+              <div className="flex items-center relative">
+                <span>SAMO</span>
+              </div>
+              <div className="flex items-center">
+                <span>BL</span>
+                <FiMessageCircle className="mt-[0.2rem]" />
+                <span>G</span>
+              </div>
             </NavLink>
           </div>
           <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6">

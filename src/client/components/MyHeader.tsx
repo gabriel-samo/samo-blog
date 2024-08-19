@@ -1,6 +1,6 @@
 import React from "react";
 import { FaMoon } from "react-icons/fa";
-import { FiSun } from "react-icons/fi";
+import { FiMessageCircle, FiSun } from "react-icons/fi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { NavLink, useLocation } from "react-router-dom";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
@@ -36,12 +36,16 @@ function MyHeader() {
     <Navbar className="border-b-2">
       <NavLink
         to="/"
-        className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
+        className="flex gap-2 whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white">
-          Samo's
-        </span>
-        Blog
+        <div className="flex items-center">
+          <span>SAMO</span>
+        </div>
+        <div className="flex items-center">
+          <span>BL</span>
+          <FiMessageCircle className="mt-[0.2rem]" />
+          <span>G</span>
+        </div>
       </NavLink>
       <form className="flex gap-4 lg:inline">
         <TextInput
