@@ -1,5 +1,6 @@
 import { Button } from "flowbite-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 function CallToActions() {
   return (
@@ -8,10 +9,12 @@ function CallToActions() {
       <div className="flex-1 flex flex-col justify-center">
         <h2 className="text-2xl">Want to learn more about JavaScript?</h2>
         <p className="text-gray-500 my-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-          quos.
+          This is a demo call to action that will bring you back to the posts
+          page.
         </p>
         <Button
+          as={Link}
+          to="/search"
           gradientDuoTone="purpleToPink"
           className="rounded-tl-xl rounded-bl-none"
         >

@@ -15,7 +15,7 @@ function Search() {
   const [sidebarData, setSidebarData] = useState<SearchParams>({
     searchTerm: "",
     sort: "desc",
-    category: "uncategorized"
+    category: ""
   });
   const [posts, setPosts] = useState<PostModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

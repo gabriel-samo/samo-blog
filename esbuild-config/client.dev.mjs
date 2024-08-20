@@ -15,7 +15,16 @@ try {
     define: {
       "process.env.NODE_ENV": "'development'",
       "process.env.FIREBASE_KEY": JSON.stringify(process.env.FIREBASE_KEY)
-    }
+    },
+    loader: {
+      ".png": "dataurl",
+      ".jpg": "dataurl",
+      ".jpeg": "dataurl",
+      ".svg": "dataurl",
+      ".gif": "dataurl",
+      ".ico": "dataurl"
+    },
+    assetNames: "[name]-[hash]"
   });
 
   await ctx.watch();
