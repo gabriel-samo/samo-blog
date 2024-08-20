@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaMoon } from "react-icons/fa";
 import { FiMessageCircle, FiSun } from "react-icons/fi";
 import { AiOutlineSearch } from "react-icons/ai";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { toggleTheme } from "../redux/slices/themeSlice";
@@ -10,10 +10,22 @@ import { makeRequest } from "../utils/makeRequest";
 import { signout } from "../redux/slices/userSlice";
 
 function MyHeader() {
-  const path = useLocation().pathname;
-  const { currentUser } = useAppSelector((state) => state.user);
+  const [searchTerm, setSearchTerm] = useState("");
   const { theme } = useAppSelector((state) => state.theme);
+  const { currentUser } = useAppSelector((state) => state.user);
+
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const path = useLocation().pathname;
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = searchParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
 
   const handleThemeToggle = () => {
     dispatch(toggleTheme());
@@ -32,6 +44,14 @@ function MyHeader() {
     }
   };
 
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
   return (
     <Navbar className="border-b-2">
       <NavLink
@@ -47,12 +67,14 @@ function MyHeader() {
           <span>G</span>
         </div>
       </NavLink>
-      <form className="flex gap-4 lg:inline">
+      <form className="flex gap-4 lg:inline" onSubmit={handleSearchSubmit}>
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
       <Button className="w-12 h-9 lg:hidden" color="gray" pill>

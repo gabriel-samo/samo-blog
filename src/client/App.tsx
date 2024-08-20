@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Search from "./pages/Search";
 import Page404 from "./pages/Page404";
 import Projects from "./pages/Projects";
 import PostPage from "./pages/PostPage";
@@ -11,11 +12,11 @@ import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import MyHeader from "./components/MyHeader";
 import MyFooter from "./components/MyFooter";
+import ScrollToTop from "./components/ScrollToTop";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   // repalced with ScrollToTop component
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/projects" element={<Projects />} />

@@ -42,7 +42,7 @@ export const getAllPosts = async (
   try {
     const startIndex = +req.query.startIndex! || 0;
     const limit = +req.query.limit! || 9;
-    const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const sortDirection = req.query.sort === "asc" ? 1 : -1;
 
     const posts = await Post.find({
       ...(req.query.userId && { userId: req.query.userId }),
