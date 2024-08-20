@@ -28,6 +28,3 @@ pids
 
 # Directory used by npm for cache
 .npm
-
-# video with time
-video+time.txt
